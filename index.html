@@ -30,20 +30,24 @@
         .header {
             background: linear-gradient(135deg, #245352 100%);
             color: white;
-            padding: 25px;
-            position: relative;
+            padding: 25px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .header-logo {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            width: 80px;
+            width: 60px;
             height: auto;
+            flex-shrink: 0;
         }
 
         .header-content {
             text-align: center;
+            flex: 1;
+            min-width: 200px;
         }
 
         .header h1 {
@@ -257,6 +261,42 @@
         @media (max-width: 600px) {
             .item-row {
                 grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 20px 15px;
+                gap: 12px;
+            }
+            
+            .header-logo {
+                width: 50px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .header p {
+                font-size: 13px;
+            }
+            
+            .form-container {
+                padding: 20px 15px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .header {
+                flex-direction: column;
+                padding: 20px 15px;
+            }
+            
+            .header-logo {
+                width: 45px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
             }
         }
     </style>
@@ -544,5 +584,3 @@
     </script>
 </body>
 </html>
-
-
