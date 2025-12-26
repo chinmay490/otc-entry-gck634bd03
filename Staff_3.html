@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTC Entry Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #245352 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #245352 100%);
+            color: white;
+            padding: 25px;
+            position: relative;
+        }
+
+        .header-logo {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            width: 80px;
+            height: auto;
+        }
+
+        .header-content {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #008080;
+        }
+
+        .items-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .items-header h2 {
+            color: #333;
+            font-size: 18px;
+        }
+
+        .item-entry {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .item-total {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            text-align: right;
+            font-weight: 600;
+            color: #1976d2;
+        }
+
+        .remove-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .remove-btn:hover {
+            background: #e84041;
+        }
+
+        .add-item-btn {
+            background: #008080;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .add-item-btn:hover {
+            background: #245352;
+        }
+
+        .grand-total {
+            background: linear-gradient(135deg, #245352 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #245352 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 128, 128, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            background: #10b981;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .error-message {
+            display: none;
+            background: #ef4444;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .advance-section {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .advance-section.show {
+            display: block;
+        }
+
+        .toggle-advance-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .toggle-advance-btn:hover {
+            background: #d97706;
+        }
+
+        @media (max-width: 600px) {
+            .item-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="C:\Users\mishr\Downloads\Pics for SAT2\logo\SAT logo.png" alt="Company Logo" class="header-logo">
+            <div class="header-content">
+                <h1>OTC Entry Form</h1>
+                <p>Staff Mobile Order Entry</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="otcForm">
+                <div class="form-group">
+                    <label for="customerName">Customer Name *</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number</label>
+                    <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]{10}">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location">
+                </div>
+
+                <div class="items-section">
+                    <div class="items-header">
+                        <h2>Items Ordered</h2>
+                    </div>
+
+                    <div id="itemsContainer">
+                        <div class="item-entry" data-item-id="1">
+                            <div class="item-row">
+                                <div class="form-group">
+                                    <label>Item Name *</label>
+                                    <input type="text" class="itemName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantity *</label>
+                                    <input type="number" class="itemQty" min="1" required onchange="calculateItemTotal(this)">
+                                </div>
+                                <div class="form-group">
+                                    <label>Rate *</label>
+                                    <input type="number" class="itemRate" min="0" step="0.01" required onchange="calculateItemTotal(this)">
+                                </div>
+                            </div>
+                            <div class="item-total">Total: ₹<span class="total-value">0</span></div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="add-item-btn" onclick="addItem()">+ Add Another Item</button>
+                </div>
+
+                <button type="button" class="toggle-advance-btn" onclick="toggleAdvanceSection()"> Advance Payment</button>
+
+                <div class="advance-section" id="advanceSection">
+                    <div class="form-group">
+                        <label for="advancePayment">Enter Advance Amount</label>
+                        <input type="number" id="advancePayment" name="advancePayment" min="0" placeholder="" onchange="calculateFinalValue()">
+
+                    </div>
+                </div>
+
+                <div class="grand-total">
+                    Grand Total: ₹<span id="grandTotal">0</span>
+                </div>
+
+                <div class="grand-total" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); margin-top: 10px; display: none;" id="balanceSection">
+                    Balance Amount: ₹<span id="finalValue">0</span>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Submit Order</button>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                ✓ Order submitted successfully to Google Sheets!
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                ✗ Error submitting order. Please try again.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let itemCount = 1;
+
+        function calculateItemTotal(input) {
+            const itemEntry = input.closest('.item-entry');
+            const qty = parseFloat(itemEntry.querySelector('.itemQty').value) || 0;
+            const rate = parseFloat(itemEntry.querySelector('.itemRate').value) || 0;
+            const total = qty * rate;
+            
+            itemEntry.querySelector('.total-value').textContent = total.toFixed(2);
+            calculateGrandTotal();
+        }
+
+        function calculateGrandTotal() {
+            let grandTotal = 0;
+            document.querySelectorAll('.item-entry').forEach(entry => {
+                const total = parseFloat(entry.querySelector('.total-value').textContent) || 0;
+                grandTotal += total;
+            });
+            document.getElementById('grandTotal').textContent = grandTotal.toFixed(2);
+            calculateFinalValue();
+        }
+
+        function calculateFinalValue() {
+            const grandTotal = parseFloat(document.getElementById('grandTotal').textContent) || 0;
+            const advancePayment = parseFloat(document.getElementById('advancePayment').value) || 0;
+            const finalValue = grandTotal - advancePayment;
+            
+            document.getElementById('finalValue').textContent = finalValue.toFixed(2);
+            
+            // Show balance section only if advance payment is entered
+            const balanceSection = document.getElementById('balanceSection');
+            if (advancePayment > 0) {
+                balanceSection.style.display = 'block';
+            } else {
+                balanceSection.style.display = 'none';
+            }
+        }
+
+        function toggleAdvanceSection() {
+            const advanceSection = document.getElementById('advanceSection');
+            advanceSection.classList.toggle('show');
+        }
+
+        function addItem() {
+            itemCount++;
+            const container = document.getElementById('itemsContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'item-entry';
+            newItem.setAttribute('data-item-id', itemCount);
+            newItem.innerHTML = `
+                <div class="item-row">
+                    <div class="form-group">
+                        <label>Item Name *</label>
+                        <input type="text" class="itemName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity *</label>
+                        <input type="number" class="itemQty" min="1" required onchange="calculateItemTotal(this)">
+                    </div>
+                    <div class="form-group">
+                        <label>Rate *</label>
+                        <input type="number" class="itemRate" min="0" step="0.01" required onchange="calculateItemTotal(this)">
+                    </div>
+                </div>
+                <div class="item-total">Total: ₹<span class="total-value">0</span></div>
+                <button type="button" class="remove-btn" onclick="removeItem(this)">Remove Item</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        function removeItem(button) {
+            button.parentElement.remove();
+            itemCount--;
+            calculateGrandTotal();
+        }
+
+        document.getElementById('otcForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            const customerName = document.getElementById('customerName').value;
+            const contactNumber = document.getElementById('contactNumber').value;
+            const location = document.getElementById('location').value;
+            
+            // Collect items and calculate grand total
+            const items = [];
+            let grandTotal = 0;
+            
+            document.querySelectorAll('.item-entry').forEach(entry => {
+                const name = entry.querySelector('.itemName').value;
+                const qty = entry.querySelector('.itemQty').value;
+                const rate = entry.querySelector('.itemRate').value;
+                const total = parseFloat(entry.querySelector('.total-value').textContent);
+                
+                items.push({
+                    name: name,
+                    quantity: qty,
+                    rate: rate,
+                    total: total
+                });
+                
+                grandTotal += total;
+            });
+            
+            // Get advance payment and calculate final value
+            const advancePayment = parseFloat(document.getElementById('advancePayment').value) || 0;
+            const finalValue = grandTotal - advancePayment;
+            
+            // Send data to Google Sheets
+            try {
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbzkFM13l2VZz2BwFXBiNhHPa4td-W0OGzdBXled5dSJEHD16ONFKxuRHjwGmkQ7-RBS/exec';
+                
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customerName: customerName,
+                        contactNumber: contactNumber,
+                        location: location,
+                        items: items,
+                        advancePayment: advancePayment,
+                        grandTotal: grandTotal,
+                        finalValue: finalValue
+                    })
+                });
+                
+                // Show success message
+                successMsg.style.display = 'block';
+                errorMsg.style.display = 'none';
+                
+                console.log('Order submitted:', {
+                    customerName,
+                    contactNumber,
+                    location,
+                    items,
+                    advancePayment,
+                    grandTotal,
+                    finalValue,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Reset form after 2 seconds
+                setTimeout(() => {
+                    this.reset();
+                    successMsg.style.display = 'none';
+                    document.getElementById('grandTotal').textContent = '0';
+                    document.getElementById('advancePayment').value = '0';
+                    document.getElementById('finalValue').textContent = '0';
+                    document.getElementById('advanceSection').classList.remove('show');
+                    document.getElementById('balanceSection').style.display = 'none';
+                    
+                    const container = document.getElementById('itemsContainer');
+                    container.innerHTML = `
+                        <div class="item-entry" data-item-id="1">
+                            <div class="item-row">
+                                <div class="form-group">
+                                    <label>Item Name *</label>
+                                    <input type="text" class="itemName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantity *</label>
+                                    <input type="number" class="itemQty" min="1" required onchange="calculateItemTotal(this)">
+                                </div>
+                                <div class="form-group">
+                                    <label>Rate *</label>
+                                    <input type="number" class="itemRate" min="0" step="0.01" required onchange="calculateItemTotal(this)">
+                                </div>
+                            </div>
+                            <div class="item-total">Total: ₹<span class="total-value">0</span></div>
+                        </div>
+                    `;
+                    itemCount = 1;
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Order';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Error submitting to Google Sheets:', error);
+                errorMsg.style.display = 'block';
+                successMsg.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Order';
+            }
+        });
+    </script>
+</body>
+</html>
